@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zshop.mapper.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.zshop.model.OrderItem" >
+    <id column="itemid" property="itemid" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="sub_total" property="subTotal" jdbcType="REAL" />
+    <result column="oid" property="oid" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    itemid, count, sub_total, oid, pid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderitems
+    where itemid = #{itemid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderitems
+    where itemid = #{itemid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zshop.model.OrderItem" >
+    insert into orderitems (itemid, count, sub_total, 
+      oid, pid)
+    values (#{itemid,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{subTotal,jdbcType=REAL}, 
+      #{oid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zshop.model.OrderItem" >
+    insert into orderitems
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemid != null" >
+        itemid,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="subTotal != null" >
+        sub_total,
+      </if>
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemid != null" >
+        #{itemid,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="subTotal != null" >
+        #{subTotal,jdbcType=REAL},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zshop.model.OrderItem" >
+    update orderitems
+    <set >
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="subTotal != null" >
+        sub_total = #{subTotal,jdbcType=REAL},
+      </if>
+      <if test="oid != null" >
+        oid = #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where itemid = #{itemid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zshop.model.OrderItem" >
+    update orderitems
+    set count = #{count,jdbcType=INTEGER},
+      sub_total = #{subTotal,jdbcType=REAL},
+      oid = #{oid,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER}
+    where itemid = #{itemid,jdbcType=INTEGER}
+  </update>
+</mapper>
