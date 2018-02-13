@@ -19,7 +19,7 @@ public interface IUserDao extends IBaseDao<User> {
      * @param password
      * @return
      */
-    public User selectByUserNameAndPassword(@Param("userName") String name, @Param("pasword") String password);
+    public User selectByUserNameAndPassword(@Param("userName") String name, @Param("password") String password);
 
     /**
      * 根据id查询用户

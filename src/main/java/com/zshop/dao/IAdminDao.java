@@ -19,7 +19,7 @@ public interface IAdminDao extends IBaseDao<Admin> {
      * @param password
      * @return
      */
-    public Admin selectByAdminNameAndPassword(@Param("userName") String name, @Param("pasword") String password);
+    public Admin selectByAdminNameAndPassword(@Param("userName") String name, @Param("password") String password);
 
     /**
      * 根据id查询管理员

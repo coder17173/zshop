@@ -1,6 +1,8 @@
 package com.zshop.model;
 
-public class Admin {
+import java.io.Serializable;
+
+public class Admin implements Serializable {
     private Integer id;
 
     private String userName;
@@ -29,5 +31,14 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

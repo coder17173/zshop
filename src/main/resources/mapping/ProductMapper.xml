@@ -1,141 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zshop.mapper.ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.zshop.model.Product" >
-    <id column="pid" property="pid" jdbcType="INTEGER" />
-    <result column="pname" property="pname" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="REAL" />
-    <result column="inventory" property="inventory" jdbcType="INTEGER" />
-    <result column="image" property="image" jdbcType="VARCHAR" />
-    <result column="comment" property="comment" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="csid" property="csid" jdbcType="INTEGER" />
-    <result column="state" property="state" jdbcType="BIT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    pid, pname, price, inventory, image, comment, create_time, csid, state
+<mapper namespace="com.zshop.dao.IProductDao">
+    <resultMap id="BaseResultMap" type="com.zshop.model.Product">
+        <id column="pid" property="pid" jdbcType="INTEGER"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="REAL"/>
+        <result column="inventory" property="inventory" jdbcType="INTEGER"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="csid" property="csid" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="BIT"/>
+        <result column="buy_price" property="buyPrice" jdbcType="REAL"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    pid, pname, price, inventory, image, comment, create_time, csid, state, buy_price, code
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from product
-    where pid = #{pid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from product
+        where pid = #{pid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
     delete from product
     where pid = #{pid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zshop.model.Product" >
+    <insert id="insert" parameterType="com.zshop.model.Product">
     insert into product (pid, pname, price, 
       inventory, image, comment, 
-      create_time, csid, state
+      create_time, csid, state, buy_price
       )
     values (#{pid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
       #{inventory,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{csid,jdbcType=INTEGER}, #{state,jdbcType=BIT}
+      #{createTime,jdbcType=TIMESTAMP}, #{csid,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{buyPrice,jdbcType=REAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zshop.model.Product" >
-    insert into product
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pid != null" >
-        pid,
-      </if>
-      <if test="pname != null" >
-        pname,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="inventory != null" >
-        inventory,
-      </if>
-      <if test="image != null" >
-        image,
-      </if>
-      <if test="comment != null" >
-        comment,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="csid != null" >
-        csid,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pid != null" >
-        #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="pname != null" >
-        #{pname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=REAL},
-      </if>
-      <if test="inventory != null" >
-        #{inventory,jdbcType=INTEGER},
-      </if>
-      <if test="image != null" >
-        #{image,jdbcType=VARCHAR},
-      </if>
-      <if test="comment != null" >
-        #{comment,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="csid != null" >
-        #{csid,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zshop.model.Product" >
-    update product
-    <set >
-      <if test="pname != null" >
-        pname = #{pname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=REAL},
-      </if>
-      <if test="inventory != null" >
-        inventory = #{inventory,jdbcType=INTEGER},
-      </if>
-      <if test="image != null" >
-        image = #{image,jdbcType=VARCHAR},
-      </if>
-      <if test="comment != null" >
-        comment = #{comment,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="csid != null" >
-        csid = #{csid,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=BIT},
-      </if>
-    </set>
-    where pid = #{pid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zshop.model.Product" >
-    update product
-    set pname = #{pname,jdbcType=VARCHAR},
-      price = #{price,jdbcType=REAL},
-      inventory = #{inventory,jdbcType=INTEGER},
-      image = #{image,jdbcType=VARCHAR},
-      comment = #{comment,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      csid = #{csid,jdbcType=INTEGER},
-      state = #{state,jdbcType=BIT}
-    where pid = #{pid,jdbcType=INTEGER}
-  </update>
+    <update id="updateById" parameterType="com.zshop.model.Product">
+        update product
+        set
+        <if test="pname != null">pname = #{pname,jdbcType=VARCHAR},</if>
+        <if test="price != null">price = #{price,jdbcType=REAL},</if>
+        <if test="inventory != null">inventory = #{inventory,jdbcType=INTEGER},</if>
+        <if test="image != null">image = #{image,jdbcType=VARCHAR},</if>
+        <if test="comment != null">comment = #{comment,jdbcType=VARCHAR},</if>
+        <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="csid != null">csid = #{csid,jdbcType=INTEGER},</if>
+        <if test="state != null">state = #{state,jdbcType=BIT},</if>
+        <if test="buyPrice != null">buy_price = #{buyPrice,jdbcType=REAL},</if>
+        <if test="code != null">code = #{code,jdbcType=VARCHAR}</if>
+        where pid = #{pid,jdbcType=INTEGER}
+    </update>
+    <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM product
+  </select>
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product
+        where pname = #{pname,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByLimit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product LIMIT #{offset},#{limit}
+    </select>
 </mapper>

@@ -27,10 +27,13 @@ public class AdminTest {
 
     @Test
     public void test() {
-        /*Admin admin = new Admin();
+        System.out.println("----");
+/*        Admin admin = new Admin();
         admin.setUserName("dudu");
         admin.setPassword("123123");
         adminService.insert(admin);*/
-        System.out.println(adminService.count());
+//        System.out.println(adminService.count());
+        Admin admin = adminService.findByAdminNameAndPassword("seller", "relles");
+        System.out.println(admin.toString());
     }
 }

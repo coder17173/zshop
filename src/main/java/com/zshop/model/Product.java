@@ -1,13 +1,18 @@
 package com.zshop.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Product {
+public class Product implements Serializable {
     private Integer pid;
 
     private String pname;
 
+    private String code;
+
     private Float price;
+
+    private Float buyPrice;
 
     private Integer inventory;
 
@@ -19,7 +24,11 @@ public class Product {
 
     private Integer csid;
 
-    private Boolean state;
+    private CategorySecond categorySecond;
+
+    private Integer state;
+
+    private String stateDesc;
 
     public Integer getPid() {
         return pid;
@@ -77,6 +86,30 @@ public class Product {
         this.createTime = createTime;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public CategorySecond getCategorySecond() {
+        return categorySecond;
+    }
+
+    public void setCategorySecond(CategorySecond categorySecond) {
+        this.categorySecond = categorySecond;
+    }
+
+    public Float getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(Float buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
     public Integer getCsid() {
         return csid;
     }
@@ -85,11 +118,36 @@ public class Product {
         this.csid = csid;
     }
 
-    public Boolean getState() {
-        return state;
+    public String getCode() {
+        return code;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getStateDesc() {
+        return stateDesc;
+    }
+
+    public void setStateDesc(String stateDesc) {
+        this.stateDesc = stateDesc;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "pid=" + pid +
+                ", pname='" + pname + '\'' +
+                ", price=" + price +
+                ", buyPrice=" + buyPrice +
+                ", inventory=" + inventory +
+                ", image='" + image + '\'' +
+                ", comment='" + comment + '\'' +
+                ", createTime=" + createTime +
+                ", csid=" + csid +
+                ", categorySecond=" + categorySecond +
+                ", state=" + state +
+                '}';
     }
 }

@@ -6,9 +6,12 @@
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
     </resultMap>
+
     <sql id="Base_Column_List">
-    id, user_name, password
-  </sql>
+        id, user_name, password
+    </sql>
+
+    <!-- 根据id查找管理员 -->
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -21,27 +24,30 @@
         select
         <include refid="Base_Column_List"/>
         from admin
-        where user_name = #{userName,jdbcType=VARCHAR}, password = #{password, jdbcType=VARCHAR}
+        where user_name = #{userName,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
     </select>
 
+    <!-- 根据id删除管理员 -->
     <delete id="deleteById" parameterType="java.lang.Integer">
-    delete from admin
-    where id = #{id,jdbcType=INTEGER}
+        delete from admin
+        where id = #{id,jdbcType=INTEGER}
     </delete>
+
+    <!-- 新增管理员 -->
     <insert id="insert" parameterType="com.zshop.model.Admin">
-    insert into admin (id, user_name, password
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
-      )
-  </insert>
+        insert into admin (id, user_name, password)
+        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    </insert>
 
+    <!-- 更新管理员 -->
     <update id="updateById" parameterType="com.zshop.model.Admin">
-    update admin
-    set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+       update admin
+       set user_name = #{userName,jdbcType=VARCHAR},
+         password = #{password,jdbcType=VARCHAR}
+       where id = #{id,jdbcType=INTEGER}
+    </update>
 
+    <!-- 统计管理员数量 -->
     <select id="count" resultType="java.lang.Integer">
         select count(*) from admin
     </select>

@@ -5,7 +5,7 @@ public class CategorySecond {
 
     private String csname;
 
-    private Integer cid;
+    private Category category;
 
     public Integer getCsid() {
         return csid;
@@ -23,11 +23,20 @@ public class CategorySecond {
         this.csname = csname == null ? null : csname.trim();
     }
 
-    public Integer getCid() {
-        return cid;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "CategorySecond{" +
+                "csid=" + csid +
+                ", csname='" + csname + '\'' +
+                ", category=" + category +
+                '}';
     }
 }
