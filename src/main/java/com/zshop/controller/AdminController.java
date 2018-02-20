@@ -1,5 +1,6 @@
 package com.zshop.controller;
 
+import com.zshop.common.Constants;
 import com.zshop.model.Admin;
 import com.zshop.service.IAdminService;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class AdminController {
     public String doLogin(Admin admin, HttpSession session) {
         boolean isExist = adminService.checkLogin(admin);
         if (isExist) {
-            session.setAttribute("login_admin", admin);
+            session.setAttribute(Constants.LOGIN_ADMIN, admin);
             logger.info("管理员[{}]登陆成功", admin.getUserName());
             return "redirect:/admin/product";
         } else {

@@ -1,5 +1,6 @@
 package com.zshop.service.impl;
 
+import com.zshop.common.AdminSearchParam;
 import com.zshop.common.Page;
 import com.zshop.common.ProductStateEnum;
 import com.zshop.dao.IProductDao;
@@ -66,8 +67,35 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public Page<Product> findBySearchParam(Page page, AdminSearchParam searchParam) {
+        int count = productDao.count();
+        page.setTotalCount(count);
+        int offset = page.getFirst();
+        int limit = page.getPageSize();
+        List<Product> result = productDao.selectBySearchParam(offset, limit, searchParam);
+        for (Product product : result) {
+            CategorySecond cs = categorySecondService.findById(product.getCsid());
+            product.setCategorySecond(cs);
+            int state = product.getState();
+            if(state == 0) {
+                product.setStateDesc(ProductStateEnum.WITHDRAW.getDesc());
+            } else {
+                product.setStateDesc(ProductStateEnum.ONSALE.getDesc());
+            }
+        }
+        page.setResult(result);
+        return page;
+    }
+
+    @Override
     public Product update(Product product) {
         productDao.updateById(product);
+        return product;
+    }
+
+    @Override
+    public Product add(Product product) {
+        productDao.insert(product);
         return product;
     }
 }

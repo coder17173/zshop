@@ -1,5 +1,6 @@
 package com.zshop.dao;
 
+import com.zshop.common.AdminSearchParam;
 import com.zshop.model.Product;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,15 @@ public interface IProductDao extends IBaseDao<Product> {
      * @return
      */
     public List<Product> selectByLimit(@Param("offset") int offset, @Param("limit") int pageSize);
+
+    /**
+     * 多条件分页查询
+     * @param offset
+     * @param pageSize
+     * @param searchParam
+     * @return
+     */
+    public List<Product> selectBySearchParam(@Param("offset") int offset, @Param("limit") int pageSize, @Param("searchParam") AdminSearchParam searchParam);
 
 //    public List<Product> findByCategorySecondCsid(@Param("csid") Integer csid, @Param("page") Integer page);
 

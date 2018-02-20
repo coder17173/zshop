@@ -31,4 +31,10 @@ public interface ICategorySecondDao extends IBaseDao<CategorySecond>{
      * @return
      */
     public List<CategorySecond> selectAll();
+
+    /**
+     * 根据一级类目查询二级类目
+     * @return
+     */
+    public List<CategorySecond> selectByCid(Integer cid);
 }

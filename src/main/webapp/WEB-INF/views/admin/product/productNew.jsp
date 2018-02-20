@@ -1,18 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
   User: zhanghang
-  Date: 2018/2/12
-  Time: 11:14
+  Date: 2018/2/18
+  Time: 14:35
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 屏蔽tomcat 自带的 EL表达式 -->
 <%@ page isELIgnored="false" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>商品修改</title>
+    <title>商品增加</title>
     <link rel="shortcut icon" href="/images/logo.ico">
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -34,41 +35,33 @@
     </div>
     <div class="row2">
         <div class="col-md-6 col-md-offset-3">
-            <form:form id="inputForm" role="form" action="${pageContext.request.contextPath}/admin/product/doEdit"
+            <form:form id="inputForm" role="form" action="${pageContext.request.contextPath}/admin/product/doNew"
                        method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="hidden" name="pid" value="${product.pid}"/>
                     <label class="col-sm-2 control-label">商品名称</label>
                     <div class="col-sm-10">
-                        <input minlength="6" required class="form-control" value="${product.pname}" type="text" id="pname" name="pname"/>
+                        <input minlength="6" required class="form-control" type="text" id="pname" name="pname"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品价格</label>
                     <div class="col-sm-10">
-                        <input type="number" required class="form-control" type="text" value="${product.price}" id="price" name="price"/>
+                        <input type="number" required class="form-control" type="text" id="price" name="price"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品编码</label>
 
                     <div class="col-sm-10">
-                        <input class="form-control" type="text" id="code" value="${product.code}" name="code"/>
+                        <input class="form-control" type="text" id="code" name="code"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品类型</label>
                     <div class="col-lg-2" style="width: 150px">
                         <select id="csid" name="csid" class="form-control">
-                            <c:forEach items="${csList}" var="categorysecond">
-                                <c:choose>
-                                    <c:when test="${categorysecond.csid == product.csid}">
-                                        <option value="${categorysecond.csid}" selected="selected">${categorysecond.csname}</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option value="${categorysecond.csid}">${categorysecond.csname}</option>
-                                    </c:otherwise>
-                                </c:choose>
+                            <c:forEach items="${csList}" var="cs">
+                                <option value="${cs.csid}">${cs.csname}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -76,36 +69,28 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品库存</label>
                     <div class="col-sm-10">
-                        <input class="form-control" required type="number" value="${product.inventory}" id="inventory" name="inventory"/>
+                        <input class="form-control" required type="number" id="inventory" name="inventory"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="pic">封面图片</label>
+                    <label class="col-sm-2 control-label" for="imgFile">封面图片</label>
                     <div class="col-sm-10">
-                        <img class="img-responsive img-rounded" width="300px" src="${pageContext.request.contextPath}${product.image}">
-                        <input type="file" id="pic" name="file">
+                        <input type="file" id="imgFile" name="imgFile">
                         <p class="help-block">图片不能超过1MB.</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品简介</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" name="comment">${product.comment}</textarea>
+                        <textarea class="form-control" name="comment"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品状态</label>
                     <div class="col-lg-2" style="width: 120px">
                         <select id="state" name="state" class="form-control">
-                            <option value="${product.state}" selected="selected">${product.stateDesc}</option>
-                            <c:choose>
-                                <c:when test="${product.state == 0}">
-                                    <option value="1">在售</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="0">已下架</option>
-                                </c:otherwise>
-                            </c:choose>
+                            <option value="1">在售</option>
+                            <option value="0">已下架</option>
                         </select>
                     </div>
                 </div>

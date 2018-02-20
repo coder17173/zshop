@@ -9,6 +9,7 @@
 <!-- 屏蔽tomcat 自带的 EL表达式 -->
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -32,6 +33,56 @@
         </ul>
     </div>
     <div class="row">
+        <div class="col-md-10 col-md-offset-3" style="margin-left:10px;margin-top: 10px;">
+            <div class="well well-sm" style="width: 110%">
+                <form:form id="searchForm" role="form" action="${pageContext.request.contextPath}/admin/product"
+                           method="get" class="form-horizontal" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品名称</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" type="text" id="pname" name="pname" placeholder="支持模糊查询"/>
+                        </div>
+                        <label class="col-sm-2 control-label">商品编码</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" type="text" id="pcode" name="pcode"/>
+                        </div>
+                        <label class="col-sm-2 control-label">商品状态</label>
+                        <div class="col-lg-2" style="width: 120px">
+                            <select id="pstate" name="pstate" class="form-control">
+                                <option value=""></option>
+                                <option value="1">在售</option>
+                                <option value="0">已下架</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">一级类目</label>
+                        <div class="col-sm-2">
+                            <select id="pcid" name="pcid" class="form-control">
+                                <option value=""></option>
+                                <c:forEach items="${cList}" var="category">
+                                    <option value="${category.cid}">${category.cname}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">二级类目</label>
+                        <div class="col-sm-2">
+                            <select id="pcsid" name="pcsid" class="form-control">
+                                <option value=""></option>
+                                <c:forEach items="${csList}" var="categorySecond">
+                                    <option value="${categorySecond.csid}">${categorySecond.csname}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-primary" style="width: 120px">搜索</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+
         <table class="table table-striped">
             <thead>
             <tr>
@@ -62,44 +113,44 @@
         </table>
     </div>
     <div class="text-center">
-            <div class="pagination pagination-centered">
-                <ul class="pagination">
-                    <li class="disabled"><a>共${page.totalCount }条数据</a></li>
+        <div class="pagination pagination-centered">
+            <ul class="pagination">
+                <li class="disabled"><a>共${page.totalCount }条数据</a></li>
+                <c:choose>
+                    <c:when test="${page.hasPre}">
+                        <li><a href="?p=1&ps=${page.pageSize}">&lt;&lt;</a></li>
+                        <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}">&lt;</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                        <li class="disabled"><a href="#">&lt;</a></li>
+                    </c:otherwise>
+                </c:choose>
+                <c:forEach var="i" begin="1" end="${page.totalPages}">
                     <c:choose>
-                        <c:when test="${page.hasPre}">
-                            <li><a href="?p=1&ps=${page.pageSize}">&lt;&lt;</a></li>
-                            <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}">&lt;</a></li>
+                        <c:when test="${i == page.pageNo}">
+                            <li class="active"><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
                         </c:when>
                         <c:otherwise>
-                            <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                            <li class="disabled"><a href="#">&lt;</a></li>
+                            <li><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
                         </c:otherwise>
                     </c:choose>
-                    <c:forEach var="i" begin="1" end="${page.totalPages}">
-                        <c:choose>
-                            <c:when test="${i == page.pageNo}">
-                                <li class="active"><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    <c:choose>
-                        <c:when test="${page.hasNext}">
-                            <li><a href="?p=${page.pageNo+1}&ps=${page.pageSize}">&gt;</a></li>
-                            <li><a href="?p=${page.totalPages}&ps=${page.pageSize}">&gt;&gt;</a></li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                            <li class="disabled"><a href="#">&lt;</a></li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </div>
+                </c:forEach>
+                <c:choose>
+                    <c:when test="${page.hasNext}">
+                        <li><a href="?p=${page.pageNo+1}&ps=${page.pageSize}">&gt;</a></li>
+                        <li><a href="?p=${page.totalPages}&ps=${page.pageSize}">&gt;&gt;</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                        <li class="disabled"><a href="#">&lt;</a></li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
     </div>
     <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/product/new">添加</a>
 </div>
-<%@include file="/common/footer.jsp"%>
+<%@include file="/common/footer.jsp" %>
 </body>
 </html>

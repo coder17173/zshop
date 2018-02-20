@@ -29,4 +29,11 @@ public interface ICategorySecondService {
      * @return
      */
     public List<CategorySecond> findAll();
+
+    /**
+     * 根据一级类目查询二级类目
+     * @param cid
+     * @return
+     */
+    public List<CategorySecond> findByCid(Integer cid);
 }

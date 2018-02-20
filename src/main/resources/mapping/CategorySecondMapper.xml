@@ -45,4 +45,10 @@
     <include refid="Base_Column_List" />
     from categorysecond
   </select>
+  <select id="selectByCid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from categorysecond
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -34,4 +34,10 @@ public class CategorySecondServiceImpl implements ICategorySecondService {
         List<CategorySecond> list = categorySecondDao.selectAll();
         return list;
     }
+
+    @Override
+    public List<CategorySecond> findByCid(Integer cid) {
+        List<CategorySecond> categorySeconds = categorySecondDao.selectByCid(cid);
+        return categorySeconds;
+    }
 }

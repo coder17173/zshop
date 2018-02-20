@@ -1,12 +1,18 @@
 package com.zshop.controller;
 
+import com.zshop.common.AdminSearchParam;
 import com.zshop.common.Constants;
 import com.zshop.common.Page;
+import com.zshop.model.Category;
 import com.zshop.model.CategorySecond;
 import com.zshop.model.Product;
 import com.zshop.service.ICategorySecondService;
+import com.zshop.service.ICategoryService;
 import com.zshop.service.IProductService;
+import com.zshop.util.EncodingTool;
 import com.zshop.util.Image;
+import com.zshop.util.ReflexObjectUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,6 +29,8 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,12 +47,48 @@ public class ProductAdminController {
     private IProductService productService;
     @Resource
     private ICategorySecondService categorySecondService;
+    @Resource
+    private ICategoryService categoryService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getProduct(ModelAndView modelAndView, HttpServletRequest request) {
         Page<Product> page = new Page<Product>(request);
-        page = productService.findProductByLimit(page);
+        String pnameTmp = request.getParameter("pname");
+        if(!StringUtils.isBlank(pnameTmp)){
+            pnameTmp = EncodingTool.encodeStr(pnameTmp);
+        }
+        String pcodeTmp = request.getParameter("pcode");
+        String pstateTmp = request.getParameter("pstate");
+        String pname = StringUtils.isBlank(pnameTmp) ? null : pnameTmp;
+        String pcode = StringUtils.isBlank(pcodeTmp) ? null : pcodeTmp;
+        Integer pstate = StringUtils.isBlank(pstateTmp) ? null : Integer.valueOf(pstateTmp);
+        AdminSearchParam searchParam = new AdminSearchParam(pname, pcode, pstate);
+        System.out.println(searchParam.getPname());
+        String pcid = request.getParameter("pcid");
+        String pcsid = request.getParameter("pcsid");
+        List<Integer> csids = null;
+        if(!StringUtils.isBlank(pcsid)) {
+            csids = new ArrayList<Integer>();
+            csids.add(Integer.valueOf(pcsid));
+            searchParam.setCsids(new ArrayList<Integer>());
+        } else if(!StringUtils.isBlank(pcid)){
+            csids = new ArrayList<Integer>();
+            List<CategorySecond> categorySeconds = categorySecondService.findByCid(Integer.valueOf(pcid));
+            for (CategorySecond categorySecond : categorySeconds) {
+                csids.add(categorySecond.getCsid());
+            }
+        }
+        searchParam.setCsids(csids);
+        if(ReflexObjectUtil.isBlank(searchParam)) {
+            page = productService.findProductByLimit(page);
+        }else{
+            page = productService.findBySearchParam(page, searchParam);
+        }
+        List<Category> cList = categoryService.findAll();
+        List<CategorySecond> csList = categorySecondService.findAll();
         modelAndView.addObject("page", page);
+        modelAndView.addObject("cList", cList);
+        modelAndView.addObject("csList", csList);
         modelAndView.setViewName("admin/product/productAdmin.jsp");
         return modelAndView;
     }
@@ -67,6 +111,32 @@ public class ProductAdminController {
         }
         product.setImage(url);
         productService.update(product);
+        return "redirect:/admin/product";
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public ModelAndView add(ModelAndView modelAndView, HttpSession session){
+        Object obj = session.getAttribute(Constants.LOGIN_ADMIN);
+        if(obj == null ){
+//            return "redirect:/admin/login";
+            modelAndView.setViewName("redirect:/admin/login");
+        }
+        List<CategorySecond> csList = categorySecondService.findAll();
+        modelAndView.addObject("csList", csList);
+//        return "admin/product/productNew.jsp";
+        modelAndView.setViewName("admin/product/productNew.jsp");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/doNew", method = RequestMethod.POST)
+    public String doAdd(Product product, HttpSession session, @RequestParam(name = "imgFile", required = false) MultipartFile file){
+        String imgURL = null;
+        if (file != null && !file.isEmpty()) {
+            imgURL = uploadImage(product, session, file);
+        }
+        product.setImage(imgURL);
+        product.setCreateTime(new Date());
+        productService.add(product);
         return "redirect:/admin/product";
     }
 

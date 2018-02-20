@@ -28,13 +28,12 @@
     where pid = #{pid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.zshop.model.Product">
-    insert into product (pid, pname, price, 
+    insert into product (pname, price,
       inventory, image, comment, 
-      create_time, csid, state, buy_price
+      create_time, csid, state, buy_price,code
       )
-    values (#{pid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
-      #{inventory,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{csid,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{buyPrice,jdbcType=REAL}
+    values (#{pname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{inventory,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{csid,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{buyPrice,jdbcType=REAL},#{code,jdbcType=VARCHAR}
       )
   </insert>
     <update id="updateById" parameterType="com.zshop.model.Product">
@@ -65,5 +64,24 @@
         select
         <include refid="Base_Column_List"/>
         from product LIMIT #{offset},#{limit}
+    </select>
+    <select id="selectBySearchParam" parameterType="com.zshop.common.AdminSearchParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product
+        <if test="searchParam != null">
+            <where>
+                <if test="searchParam.pname != null">pname LIKE CONCAT('%',#{searchParam.pname,jdbcType=VARCHAR},'%')</if>
+                <if test="searchParam.pcode != null">AND code = #{searchParam.pcode,jdbcType=VARCHAR}</if>
+                <if test="searchParam.pstate != null">AND state = #{searchParam.pstate,jdbcType=BIT}</if>
+                <if test="searchParam.csids != null">
+                    AND csid in
+                    <foreach collection="searchParam.csids" item="csid" index="index" separator="," open="(" close=")">
+                        #{csid,jdbcType=INTEGER}
+                    </foreach>
+                </if>
+            </where>
+        </if>
+        LIMIT #{offset},#{limit}
     </select>
 </mapper>
