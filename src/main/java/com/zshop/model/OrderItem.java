@@ -1,22 +1,26 @@
 package com.zshop.model;
 
-public class OrderItem {
-    private Integer itemid;
+import java.io.Serializable;
+
+public class OrderItem implements Serializable{
+    private Integer oiid;
 
     private Integer count;
 
     private Float subTotal;
 
-    private Integer oid;
+    private Order order;
 
-    private Integer pid;
+    private Product product;
 
-    public Integer getItemid() {
-        return itemid;
+    private Float buyPrice;
+
+    public Integer getOiid() {
+        return oiid;
     }
 
-    public void setItemid(Integer itemid) {
-        this.itemid = itemid;
+    public void setOiid(Integer oiid) {
+        this.oiid = oiid;
     }
 
     public Integer getCount() {
@@ -35,19 +39,39 @@ public class OrderItem {
         this.subTotal = subTotal;
     }
 
-    public Integer getOid() {
-        return oid;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOid(Integer oid) {
-        this.oid = oid;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public Integer getPid() {
-        return pid;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Float getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(Float buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "oiid=" + oiid +
+                ", count=" + count +
+                ", subTotal=" + subTotal +
+                ", order=" + order +
+                ", product=" + product +
+                ", buyPrice=" + buyPrice +
+                '}';
     }
 }

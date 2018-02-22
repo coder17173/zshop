@@ -33,6 +33,7 @@
         </ul>
     </div>
     <div class="row">
+        <!-- 搜索start -->
         <div class="col-md-10 col-md-offset-3" style="margin-left:10px;margin-top: 10px;">
             <div class="well well-sm" style="width: 110%">
                 <form:form id="searchForm" role="form" action="${pageContext.request.contextPath}/admin/product"
@@ -82,7 +83,7 @@
                 </form:form>
             </div>
         </div>
-
+        <!-- 搜索end -->
         <table class="table table-striped">
             <thead>
             <tr>
@@ -142,14 +143,14 @@
                         <li><a href="?p=${page.totalPages}&ps=${page.pageSize}">&gt;&gt;</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                        <li class="disabled"><a href="#">&lt;</a></li>
+                        <li class="disabled"><a href="#">&gt;</a></li>
+                        <li class="disabled"><a href="#">&gt;&gt;</a></li>
                     </c:otherwise>
                 </c:choose>
             </ul>
         </div>
     </div>
-    <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/product/new">添加</a>
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/product/new">发布新商品</a>
 </div>
 <%@include file="/common/footer.jsp" %>
 </body>

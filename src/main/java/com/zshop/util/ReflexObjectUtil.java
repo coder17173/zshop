@@ -1,6 +1,7 @@
 package com.zshop.util;
 
 import com.zshop.common.AdminSearchParam;
+import com.zshop.common.OrderSearchParam;
 
 import java.lang.reflect.Field;
 
@@ -20,7 +21,7 @@ public class ReflexObjectUtil {
             Object val = new Object();
             try {
                 val = f.get(obj);
-                if(val != null) {
+                if(val != null && !"".equals(val)) {
                     isBlank = false;
                 }
             } catch (IllegalArgumentException e) {
@@ -33,8 +34,13 @@ public class ReflexObjectUtil {
     }
 
     public static void main(String[] args) {
-        AdminSearchParam searchParam = new AdminSearchParam();
+        /*AdminSearchParam searchParam = new AdminSearchParam();
         boolean result = ReflexObjectUtil.isBlank(searchParam);
+        System.out.println(result);*/
+
+        OrderSearchParam orderSearchParam = new OrderSearchParam();
+        orderSearchParam.setOrderNumber("");
+        boolean result = ReflexObjectUtil.isBlank(orderSearchParam);
         System.out.println(result);
 
     }

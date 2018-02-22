@@ -1,23 +1,47 @@
 package com.zshop.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private Integer oid;
 
-    private Date createTime;
+    private String orderNumber;//订单编号
 
-    private String name;
+    private Date createTime;//创建时间
 
-    private String phone;
+    private String createTimeStr;
 
-    private String addr;
+    private User user;//关联客户
 
-    private Boolean state;
+    private String name;//收货人
 
-    private Float total;
+    private String phone;//收货人电话
 
-    private Integer uid;
+    private String addr;//收货人地址
+
+    private Integer state;//订单状态
+
+    private String stateDesc;//订单状态描述
+
+    private Float total;//总价
+
+    private String zipCode;//邮编
+
+    private Date payTime;//付款时间
+
+    private Date shipTime;//发货时间
+
+    private Date confirmTime;//确认收货时间
+
+    private String payTimeStr;
+
+    private String shipTimeStr;
+
+    private String confirmTimeStr;
+
+    private List<OrderItem> orderItems;//订单关联的商品集合
 
     public Integer getOid() {
         return oid;
@@ -59,12 +83,20 @@ public class Order {
         this.addr = addr == null ? null : addr.trim();
     }
 
-    public Boolean getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getStateDesc() {
+        return stateDesc;
+    }
+
+    public void setStateDesc(String stateDesc) {
+        this.stateDesc = stateDesc;
     }
 
     public Float getTotal() {
@@ -75,11 +107,91 @@ public class Order {
         this.total = total;
     }
 
-    public Integer getUid() {
-        return uid;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public Date getShipTime() {
+        return shipTime;
+    }
+
+    public void setShipTime(Date shipTime) {
+        this.shipTime = shipTime;
+    }
+
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
+    public String getPayTimeStr() {
+        return payTimeStr;
+    }
+
+    public void setPayTimeStr(String payTimeStr) {
+        this.payTimeStr = payTimeStr;
+    }
+
+    public String getShipTimeStr() {
+        return shipTimeStr;
+    }
+
+    public void setShipTimeStr(String shipTimeStr) {
+        this.shipTimeStr = shipTimeStr;
+    }
+
+    public String getConfirmTimeStr() {
+        return confirmTimeStr;
+    }
+
+    public void setConfirmTimeStr(String confirmTimeStr) {
+        this.confirmTimeStr = confirmTimeStr;
     }
 }

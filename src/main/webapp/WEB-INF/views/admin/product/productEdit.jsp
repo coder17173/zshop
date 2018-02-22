@@ -46,12 +46,11 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品价格</label>
                     <div class="col-sm-10">
-                        <input type="number" required class="form-control" type="text" value="${product.price}" id="price" name="price"/>
+                        <input required class="form-control" type="text" value="${product.price}" id="price" name="price"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品编码</label>
-
                     <div class="col-sm-10">
                         <input class="form-control" type="text" id="code" value="${product.code}" name="code"/>
                     </div>

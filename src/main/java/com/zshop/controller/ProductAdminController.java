@@ -51,7 +51,13 @@ public class ProductAdminController {
     private ICategoryService categoryService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getProduct(ModelAndView modelAndView, HttpServletRequest request) {
+    public ModelAndView getProduct(ModelAndView modelAndView, HttpServletRequest request, HttpSession session) {
+        //判断管理员是否登录
+        Object obj = session.getAttribute(Constants.LOGIN_ADMIN);
+        if(obj == null ){
+            modelAndView.setViewName("redirect:/admin/login");
+            return modelAndView;
+        }
         Page<Product> page = new Page<Product>(request);
         String pnameTmp = request.getParameter("pname");
         if(!StringUtils.isBlank(pnameTmp)){
