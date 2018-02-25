@@ -13,6 +13,8 @@ public class Order implements Serializable {
 
     private String createTimeStr;
 
+    private Integer uid;
+
     private User user;//关联客户
 
     private String name;//收货人
@@ -193,5 +195,13 @@ public class Order implements Serializable {
 
     public void setConfirmTimeStr(String confirmTimeStr) {
         this.confirmTimeStr = confirmTimeStr;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 }

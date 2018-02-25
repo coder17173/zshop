@@ -13,12 +13,13 @@
 <head>
     <meta charset="utf-8">
     <title>订单管理</title>
+    <link rel="shortcut icon" href="/images/logo.ico">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- dateTime控件 -->
     <link href="${pageContext.request.contextPath}/common/date/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <script src="${pageContext.request.contextPath}/common/date/bootstrap-datetimepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/common/date/bootstrap-datetimepicker.zh-CN.js"></script>
-    <link rel="shortcut icon" href="/images/logo.ico">
+
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
@@ -50,7 +51,7 @@
                             <select id="orderState" name="orderState" class="form-control">
                                 <option value=""></option>
                                 <option value="0">待付款</option>
-                                <option value="1">已付款</option>
+                                <option value="1">待发货</option>
                                 <option value="2">已发货</option>
                                 <option value="3">已删除</option>
                                 <option value="4">已完成</option>
@@ -103,19 +104,24 @@
                     <td>${order.name}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${order.state==0}"><a class="btn btn-info btn-xs"
-                                                                href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
-                                <a class="btn btn-info btn-xs del-order-btn">删除</a></c:when>
-                            <c:when test="${order.state==1}"><a class="btn btn-info btn-xs"
-                                                                href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
-                                <a class="btn btn-info btn-xs ship-order-btn">发货</a> <a
-                                        class="btn btn-info btn-xs del-order-btn">删除</a></c:when>
-                            <c:when test="${order.state==2}"><a class="btn btn-info btn-xs"
-                                                                href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a></c:when>
-                            <c:when test="${order.state==3}"><a class="btn btn-info btn-xs"
-                                                                href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a></c:when>
-                            <c:when test="${order.state==4}"><a class="btn btn-info btn-xs"
-                                                                href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a></c:when>
+                            <c:when test="${order.state==0}">
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/delete/${order.oid}">删除</a>
+                            </c:when>
+                            <c:when test="${order.state==1}">
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/ship/${order.oid}">发货</a>
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/delete/${order.oid}">删除</a>
+                            </c:when>
+                            <c:when test="${order.state==2}">
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
+                            </c:when>
+                            <c:when test="${order.state==3}">
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
+                            </c:when>
+                            <c:when test="${order.state==4}">
+                                <a class="btn btn-info btn-xs" href="${pageContext.request.contextPath}/admin/order/${order.oid}">查看</a>
+                            </c:when>
                         </c:choose>
                     </td>
                 </tr>
@@ -189,9 +195,6 @@
         clearBtn:true,
         forceParse: 0
     });
-</script>
-<script>
-
 </script>
 </body>
 </html>

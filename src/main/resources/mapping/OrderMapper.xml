@@ -121,21 +121,23 @@
       where oid = #{oid,jdbcType=INTEGER}
     </update>-->
     <update id="updateById" parameterType="com.zshop.model.Order">
-    update orders
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      addr = #{addr,jdbcType=VARCHAR},
-      state = #{state,jdbcType=BIT},
-      total = #{total,jdbcType=REAL},
-      uid = #{uid,jdbcType=INTEGER},
-      order_number = #{orderNumber,jdbcType=VARCHAR},
-      zipcode = #{zipCode,jdbcType=VARCHAR},
-      pay_time = #{payTime,jdbcType=TIMESTAMP},
-      ship_time = #{shipTime,jdbcType=TIMESTAMP},
-      confirm_time = #{confirmTime,jdbcType=TIMESTAMP}
-    where oid = #{oid,jdbcType=INTEGER}
-  </update>
+        update orders
+        <trim prefix="set" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
+            <if test="addr != null">addr = #{addr,jdbcType=VARCHAR},</if>
+            <if test="state != null">state = #{state,jdbcType=BIT},</if>
+            <if test="total != null">total = #{total,jdbcType=REAL},</if>
+            <if test="uid != null">uid = #{uid,jdbcType=INTEGER},</if>
+            <if test="orderNumber != null">order_number = #{orderNumber,jdbcType=VARCHAR},</if>
+            <if test="zipCode != null">zipcode = #{zipCode,jdbcType=VARCHAR},</if>
+            <if test="payTime != null">pay_time = #{payTime,jdbcType=TIMESTAMP},</if>
+            <if test="shipTime != null">ship_time = #{shipTime,jdbcType=TIMESTAMP},</if>
+            <if test="confirmTime != null">confirm_time = #{confirmTime,jdbcType=TIMESTAMP}</if>
+        </trim>
+        where oid = #{oid,jdbcType=INTEGER}
+    </update>
     <select id="count" resultType="java.lang.Integer">
     SELECT count(*) from orders
   </select>
@@ -154,7 +156,8 @@
         from orders
         <if test="searchParam != null">
             <where>
-                <if test="searchParam.orderNumber != null">order_number = #{searchParam.orderNumber,jdbcType=VARCHAR}</if>
+                <if test="searchParam.orderNumber != null">order_number = #{searchParam.orderNumber,jdbcType=VARCHAR}
+                </if>
                 <if test="searchParam.orderState != null">AND state = #{searchParam.orderState,jdbcType=BIT}</if>
                 <if test="searchParam.start != null">AND create_time &gt;= #{searchParam.start,jdbcType=TIMESTAMP}</if>
                 <if test="searchParam.end != null">AND create_time &lt;= #{searchParam.end,jdbcType=TIMESTAMP}</if>

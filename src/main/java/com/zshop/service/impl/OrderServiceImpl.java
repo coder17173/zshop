@@ -7,6 +7,7 @@ import com.zshop.dao.IOrderDao;
 import com.zshop.dao.IOrderItemDao;
 import com.zshop.model.Order;
 import com.zshop.model.OrderItem;
+import com.zshop.service.IOrderItemService;
 import com.zshop.service.IOrderService;
 import com.zshop.util.DateFormatUtil;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class OrderServiceImpl implements IOrderService {
     private IOrderDao orderDao;
     @Resource
     private IOrderItemDao orderItemDao;
+    @Resource
+    private IOrderItemService orderItemService;
 
     @Override
     public Order findById(Integer oid) {
@@ -34,6 +37,14 @@ public class OrderServiceImpl implements IOrderService {
         int state = order.getState();
         String stateDesc = OrderStateService.getOrderStateDesc(state);
         order.setStateDesc(stateDesc);
+        String createTime = DateFormatUtil.dateFormat(order.getCreateTime());
+        String payTime = DateFormatUtil.dateFormat(order.getPayTime());
+        String shipTime = DateFormatUtil.dateFormat(order.getShipTime());
+        String confirmTime = DateFormatUtil.dateFormat(order.getConfirmTime());
+        order.setCreateTimeStr(createTime);
+        order.setPayTimeStr(payTime);
+        order.setShipTimeStr(shipTime);
+        order.setConfirmTimeStr(confirmTime);
         return order;
     }
 
@@ -89,7 +100,8 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Order update(Order order) {
-        return null;
+        orderDao.updateById(order);
+        return order;
     }
 
     @Override
@@ -99,6 +111,6 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public void delete(Integer oid) {
-
+        orderDao.deleteById(oid);
     }
 }

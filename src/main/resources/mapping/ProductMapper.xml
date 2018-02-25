@@ -38,17 +38,18 @@
   </insert>
     <update id="updateById" parameterType="com.zshop.model.Product">
         update product
-        set
-        <if test="pname != null">pname = #{pname,jdbcType=VARCHAR},</if>
-        <if test="price != null">price = #{price,jdbcType=REAL},</if>
-        <if test="inventory != null">inventory = #{inventory,jdbcType=INTEGER},</if>
-        <if test="image != null">image = #{image,jdbcType=VARCHAR},</if>
-        <if test="comment != null">comment = #{comment,jdbcType=VARCHAR},</if>
-        <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
-        <if test="csid != null">csid = #{csid,jdbcType=INTEGER},</if>
-        <if test="state != null">state = #{state,jdbcType=BIT},</if>
-        <if test="buyPrice != null">buy_price = #{buyPrice,jdbcType=REAL},</if>
-        <if test="code != null">code = #{code,jdbcType=VARCHAR}</if>
+        <trim prefix="set" suffixOverrides=",">
+            <if test="pname != null">pname = #{pname,jdbcType=VARCHAR},</if>
+            <if test="price != null">price = #{price,jdbcType=REAL},</if>
+            <if test="inventory != null">inventory = #{inventory,jdbcType=INTEGER},</if>
+            <if test="image != null">image = #{image,jdbcType=VARCHAR},</if>
+            <if test="comment != null">comment = #{comment,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="csid != null">csid = #{csid,jdbcType=INTEGER},</if>
+            <if test="state != null">state = #{state,jdbcType=BIT},</if>
+            <if test="buyPrice != null">buy_price = #{buyPrice,jdbcType=REAL},</if>
+            <if test="code != null">code = #{code,jdbcType=VARCHAR}</if>
+        </trim>
         where pid = #{pid,jdbcType=INTEGER}
     </update>
     <select id="count" resultType="java.lang.Integer">
@@ -71,7 +72,8 @@
         from product
         <if test="searchParam != null">
             <where>
-                <if test="searchParam.pname != null">pname LIKE CONCAT('%',#{searchParam.pname,jdbcType=VARCHAR},'%')</if>
+                <if test="searchParam.pname != null">pname LIKE CONCAT('%',#{searchParam.pname,jdbcType=VARCHAR},'%')
+                </if>
                 <if test="searchParam.pcode != null">AND code = #{searchParam.pcode,jdbcType=VARCHAR}</if>
                 <if test="searchParam.pstate != null">AND state = #{searchParam.pstate,jdbcType=BIT}</if>
                 <if test="searchParam.csids != null">
