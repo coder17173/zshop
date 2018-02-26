@@ -59,6 +59,8 @@
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.9" />
           <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.19" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.ansj:ansj_seg:0.9" />
+          <element id="library" level="project" name="Maven: org.ansj:tree_split:1.0.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

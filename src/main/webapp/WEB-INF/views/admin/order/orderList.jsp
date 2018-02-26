@@ -131,13 +131,13 @@
     </div>
     <!-- 分页 -->
     <div class="text-center">
-        <div class="pagination pagination-centered">
+        <%--<div class="pagination pagination-centered">
             <ul class="pagination">
                 <li class="disabled"><a>共${page.totalCount }条数据</a></li>
                 <c:choose>
                     <c:when test="${page.hasPre}">
-                        <li><a href="?p=1&ps=${page.pageSize}">&lt;&lt;</a></li>
-                        <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}">&lt;</a></li>
+                        <li><a href="?p=1&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">&lt;&lt;</a></li>
+                        <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">&lt;</a></li>
                     </c:when>
                     <c:otherwise>
                         <li class="disabled"><a href="#">&lt;&lt;</a></li>
@@ -147,17 +147,17 @@
                 <c:forEach var="i" begin="1" end="${page.totalPages}">
                     <c:choose>
                         <c:when test="${i == page.pageNo}">
-                            <li class="active"><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
+                            <li class="active"><a href="?p=${i}&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">${i}</a></li>
                         </c:when>
                         <c:otherwise>
-                            <li><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
+                            <li><a href="?p=${i}&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">${i}</a></li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <c:choose>
                     <c:when test="${page.hasNext}">
-                        <li><a href="?p=${page.pageNo+1}&ps=${page.pageSize}">&gt;</a></li>
-                        <li><a href="?p=${page.totalPages}&ps=${page.pageSize}">&gt;&gt;</a></li>
+                        <li><a href="?p=${page.pageNo+1}&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">&gt;</a></li>
+                        <li><a href="?p=${page.totalPages}&ps=${page.pageSize}&orderNumber=${searchParam.orderNumber}&orderState=${searchParam.orderState}&startDate=${searchParam.startDate}&endDate=${searchParam.endDate}">&gt;&gt;</a></li>
                     </c:when>
                     <c:otherwise>
                         <li class="disabled"><a href="#">&gt;</a></li>
@@ -165,7 +165,8 @@
                     </c:otherwise>
                 </c:choose>
             </ul>
-        </div>
+        </div>--%>
+        <%@include file="/common/admin-order-pagination.jsp" %>
     </div>
 </div>
 <!-- footer  -->

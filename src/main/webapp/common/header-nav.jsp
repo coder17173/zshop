@@ -18,7 +18,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="${ctx}/product/">首页</a></li>
+                <li><a href="${pageContext.request.contextPath}/product/">首页</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>

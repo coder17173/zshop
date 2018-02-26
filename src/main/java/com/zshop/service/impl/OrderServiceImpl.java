@@ -76,7 +76,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Page<Order> findOrdersByParam(Page page, OrderSearchParam param) {
-        int count = orderDao.count();
+        int count = orderDao.countByParam(param);
         page.setTotalCount(count);
         int offset = page.getFirst();
         int pageSize = page.getPageSize();

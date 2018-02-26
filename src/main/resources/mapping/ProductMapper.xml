@@ -82,8 +82,37 @@
                         #{csid,jdbcType=INTEGER}
                     </foreach>
                 </if>
+                <if test="searchParam.searchQuery != null">
+                    AND
+                    <foreach collection="searchParam.queryList" item="item" index="index"  separator="OR">
+                        pname LIKE CONCAT('%',#{item},'%')
+                    </foreach>
+                </if>
             </where>
         </if>
         LIMIT #{offset},#{limit}
+    </select>
+    <select id="countByParam" parameterType="com.zshop.common.AdminSearchParam" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM product
+        <if test="searchParam != null">
+            <where>
+                <if test="searchParam.pname != null">pname LIKE CONCAT('%',#{searchParam.pname,jdbcType=VARCHAR},'%')
+                </if>
+                <if test="searchParam.pcode != null">AND code = #{searchParam.pcode,jdbcType=VARCHAR}</if>
+                <if test="searchParam.pstate != null">AND state = #{searchParam.pstate,jdbcType=BIT}</if>
+                <if test="searchParam.csids != null">
+                    AND csid in
+                    <foreach collection="searchParam.csids" item="csid" index="index" separator="," open="(" close=")">
+                        #{csid,jdbcType=INTEGER}
+                    </foreach>
+                </if>
+                <if test="searchParam.searchQuery != null">
+                    AND
+                    <foreach collection="searchParam.queryList" item="item" index="index"  separator="OR">
+                        pname LIKE CONCAT('%',#{item},'%')
+                    </foreach>
+                </if>
+            </where>
+        </if>
     </select>
 </mapper>

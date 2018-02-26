@@ -41,15 +41,17 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">商品名称</label>
                         <div class="col-sm-2">
-                            <input class="form-control" type="text" id="pname" name="pname" placeholder="支持模糊查询"/>
+                            <input class="form-control" type="text" id="pname" name="pname" value="${searchParam.pname}"
+                                   placeholder="支持模糊查询"/>
                         </div>
                         <label class="col-sm-2 control-label">商品编码</label>
                         <div class="col-sm-2">
-                            <input class="form-control" type="text" id="pcode" name="pcode"/>
+                            <input class="form-control" type="text" id="pcode" name="pcode"
+                                   value="${searchParam.pcode}"/>
                         </div>
                         <label class="col-sm-2 control-label">商品状态</label>
                         <div class="col-lg-2" style="width: 120px">
-                            <select id="pstate" name="pstate" class="form-control">
+                            <select id="pstate" name="pstate" class="form-control" value="${searchParam.pstate}">
                                 <option value=""></option>
                                 <option value="1">在售</option>
                                 <option value="0">已下架</option>
@@ -59,7 +61,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">一级类目</label>
                         <div class="col-sm-2">
-                            <select id="pcid" name="pcid" class="form-control">
+                            <select id="pcid" name="pcid" class="form-control" value="${searchParam.cid}">
                                 <option value=""></option>
                                 <c:forEach items="${cList}" var="category">
                                     <option value="${category.cid}">${category.cname}</option>
@@ -68,11 +70,27 @@
                         </div>
                         <label class="col-sm-2 control-label">二级类目</label>
                         <div class="col-sm-2">
-                            <select id="pcsid" name="pcsid" class="form-control">
+                            <select id="pcsid" name="pcsid" class="form-control" value="${searchParam.csid}">
+                                    <%-- <c:choose>
+                                         <c:when test="${searchParam.csid != null}">
+                                             <c:forEach items="${csList}" var="categorySecond">
+                                                 <c:choose>
+                                                     <c:when test="${searchParam.csid == categorySecond.csid}">
+                                                         <option value="${categorySecond.csid}" selected="selected">${categorySecond.csname}</option>
+                                                     </c:when>
+                                                     <c:otherwise>
+                                                         <option value="${categorySecond.csid}">${categorySecond.csname}</option>
+                                                     </c:otherwise>
+                                                 </c:choose>
+                                             </c:forEach>
+                                         </c:when>
+                                         <c:otherwise>--%>
                                 <option value=""></option>
                                 <c:forEach items="${csList}" var="categorySecond">
                                     <option value="${categorySecond.csid}">${categorySecond.csname}</option>
                                 </c:forEach>
+                                    <%--  </c:otherwise>
+                                  </c:choose>--%>
                             </select>
                         </div>
                         <label class="col-sm-1 control-label"></label>
@@ -114,13 +132,14 @@
         </table>
     </div>
     <div class="text-center">
-        <div class="pagination pagination-centered">
+        <%@include file="/common/admin-product-pagination.jsp" %>
+        <%--<div class="pagination pagination-centered">
             <ul class="pagination">
                 <li class="disabled"><a>共${page.totalCount }条数据</a></li>
                 <c:choose>
                     <c:when test="${page.hasPre}">
-                        <li><a href="?p=1&ps=${page.pageSize}">&lt;&lt;</a></li>
-                        <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}">&lt;</a></li>
+                        <li><a href="?p=1&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">&lt;&lt;</a></li>
+                        <li><a href="?p=${page.pageNo-1}&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">&lt;</a></li>
                     </c:when>
                     <c:otherwise>
                         <li class="disabled"><a href="#">&lt;&lt;</a></li>
@@ -130,17 +149,19 @@
                 <c:forEach var="i" begin="1" end="${page.totalPages}">
                     <c:choose>
                         <c:when test="${i == page.pageNo}">
-                            <li class="active"><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
+                            <li class="active"><a href="?p=${i}&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">${i}</a></li>
                         </c:when>
                         <c:otherwise>
-                            <li><a href="?p=${i}&ps=${page.pageSize}">${i}</a></li>
+                            <li><a href="?p=${i}&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">${i}</a></li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <c:choose>
                     <c:when test="${page.hasNext}">
-                        <li><a href="?p=${page.pageNo+1}&ps=${page.pageSize}">&gt;</a></li>
-                        <li><a href="?p=${page.totalPages}&ps=${page.pageSize}">&gt;&gt;</a></li>
+                        <li>
+                            <a href="?p=${page.pageNo+1}&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">&gt;</a>
+                        </li>
+                        <li><a href="?p=${page.totalPages}&ps=${page.pageSize}&pname=${searchParam.pname}&pcode=${searchParam.pcode}&pstate=${searchParam.pstate}&pcid=${searchParam.cid}&pcsid=${searchParam.csid}">&gt;&gt;</a></li>
                     </c:when>
                     <c:otherwise>
                         <li class="disabled"><a href="#">&gt;</a></li>
@@ -148,7 +169,7 @@
                     </c:otherwise>
                 </c:choose>
             </ul>
-        </div>
+        </div>--%>
     </div>
     <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/product/new">发布新商品</a>
 </div>

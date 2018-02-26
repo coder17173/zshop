@@ -1,5 +1,6 @@
 package com.zshop.dao;
 
+import com.zshop.common.AdminSearchParam;
 import com.zshop.common.OrderSearchParam;
 import com.zshop.model.Order;
 import org.apache.ibatis.annotations.Param;
@@ -44,4 +45,11 @@ public interface IOrderDao extends IBaseDao<Order> {
      * @return
      */
     public Integer countByUser(Integer uid);
+
+    /**
+     *
+     * @param searchParam
+     * @return
+     */
+    public Integer countByParam(@Param("searchParam") OrderSearchParam searchParam);
 }

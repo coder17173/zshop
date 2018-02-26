@@ -65,26 +65,28 @@ public class ProductAdminController {
         }
         String pcodeTmp = request.getParameter("pcode");
         String pstateTmp = request.getParameter("pstate");
+
         String pname = StringUtils.isBlank(pnameTmp) ? null : pnameTmp;
         String pcode = StringUtils.isBlank(pcodeTmp) ? null : pcodeTmp;
         Integer pstate = StringUtils.isBlank(pstateTmp) ? null : Integer.valueOf(pstateTmp);
         AdminSearchParam searchParam = new AdminSearchParam(pname, pcode, pstate);
-        System.out.println(searchParam.getPname());
         String pcid = request.getParameter("pcid");
         String pcsid = request.getParameter("pcsid");
         List<Integer> csids = null;
-        if(!StringUtils.isBlank(pcsid)) {
+        if(StringUtils.isNotBlank(pcsid)) {
             csids = new ArrayList<Integer>();
             csids.add(Integer.valueOf(pcsid));
-            searchParam.setCsids(new ArrayList<Integer>());
-        } else if(!StringUtils.isBlank(pcid)){
+            searchParam.setCsids(csids);
+            searchParam.setCsid(Integer.valueOf(pcsid));
+        } else if(StringUtils.isNotBlank(pcid)){
             csids = new ArrayList<Integer>();
             List<CategorySecond> categorySeconds = categorySecondService.findByCid(Integer.valueOf(pcid));
             for (CategorySecond categorySecond : categorySeconds) {
                 csids.add(categorySecond.getCsid());
             }
+            searchParam.setCsids(csids);
+            searchParam.setCid(Integer.valueOf(pcid));
         }
-        searchParam.setCsids(csids);
         if(ReflexObjectUtil.isBlank(searchParam)) {
             page = productService.findProductByLimit(page);
         }else{
@@ -95,6 +97,7 @@ public class ProductAdminController {
         modelAndView.addObject("page", page);
         modelAndView.addObject("cList", cList);
         modelAndView.addObject("csList", csList);
+        modelAndView.addObject("searchParam", searchParam);
         modelAndView.setViewName("admin/product/productAdmin.jsp");
         return modelAndView;
     }

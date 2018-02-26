@@ -166,4 +166,17 @@
         </if>
         LIMIT #{offset},#{limit}
     </select>
+    <select id="countByParam" parameterType="com.zshop.common.OrderSearchParam" resultType="java.lang.Integer">
+        SELECT count(*) from orders
+        <if test="searchParam != null">
+            <where>
+                <if test="searchParam.orderNumber != null">order_number = #{searchParam.orderNumber,jdbcType=VARCHAR}
+                </if>
+                <if test="searchParam.orderState != null">AND state = #{searchParam.orderState,jdbcType=BIT}</if>
+                <if test="searchParam.start != null">AND create_time &gt;= #{searchParam.start,jdbcType=TIMESTAMP}</if>
+                <if test="searchParam.end != null">AND create_time &lt;= #{searchParam.end,jdbcType=TIMESTAMP}</if>
+                <if test="searchParam.user != null">AND uid = #{searchParam.user.uid,jdbcType=INTEGER}</if>
+            </where>
+        </if>
+    </select>
 </mapper>

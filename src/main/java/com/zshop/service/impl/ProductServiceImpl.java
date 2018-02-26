@@ -68,11 +68,12 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Page<Product> findBySearchParam(Page page, AdminSearchParam searchParam) {
-        int count = productDao.count();
+        int count = productDao.countByParam(searchParam);
         page.setTotalCount(count);
         int offset = page.getFirst();
         int limit = page.getPageSize();
         List<Product> result = productDao.selectBySearchParam(offset, limit, searchParam);
+//        page.setTotalCount(result.size());
         for (Product product : result) {
             CategorySecond cs = categorySecondService.findById(product.getCsid());
             product.setCategorySecond(cs);

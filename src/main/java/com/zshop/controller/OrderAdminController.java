@@ -57,6 +57,7 @@ public class OrderAdminController {
             page =  orderService.findOrdersByLimit(page);
         }
         modelAndView.addObject("page", page);
+        modelAndView.addObject("searchParam",searchParam);
         modelAndView.setViewName("admin/order/orderList.jsp");
         return modelAndView;
     }

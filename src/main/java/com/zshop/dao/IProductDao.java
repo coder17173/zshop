@@ -46,6 +46,12 @@ public interface IProductDao extends IBaseDao<Product> {
      */
     public List<Product> selectBySearchParam(@Param("offset") int offset, @Param("limit") int pageSize, @Param("searchParam") AdminSearchParam searchParam);
 
+    /**
+     * 条件查询统计
+     * @param searchParam
+     * @return
+     */
+    public Integer countByParam(@Param("searchParam") AdminSearchParam searchParam);
 //    public List<Product> findByCategorySecondCsid(@Param("csid") Integer csid, @Param("page") Integer page);
 
 //    public List<Product> findByCategoryCid(Integer cid, Integer page);

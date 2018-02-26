@@ -1,7 +1,6 @@
 package com.zshop.common;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +13,10 @@ public class AdminSearchParam implements Serializable{
     private String pcode;
     private Integer pstate;
     private List<Integer> csids;
+    private Integer cid;
+    private Integer csid;
+    private String searchQuery;
+    private List<String> queryList;
 
     public AdminSearchParam() {}
 
@@ -21,7 +24,7 @@ public class AdminSearchParam implements Serializable{
         this.pname = pname;
         this.pcode = pcode;
         this.pstate = pstate;
-        this.csids = new ArrayList<Integer>();
+//        this.csids = new ArrayList<Integer>();
     }
 
     public String getPname() {
@@ -56,17 +59,35 @@ public class AdminSearchParam implements Serializable{
         this.csids = csids;
     }
 
-//    public void addCsids(Integer csid) {
-//        this.csids.add(csid);
-//    }
+    public Integer getCid() {
+        return cid;
+    }
 
-    @Override
-    public String toString() {
-        return "AdminSearchParam{" +
-                "pname='" + pname + '\'' +
-                ", pcode='" + pcode + '\'' +
-                ", pstate='" + pstate + '\'' +
-                ", csids=" + csids +
-                '}';
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
+
+    public Integer getCsid() {
+        return csid;
+    }
+
+    public void setCsid(Integer csid) {
+        this.csid = csid;
+    }
+
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+    public List<String> getQueryList() {
+        return queryList;
+    }
+
+    public void setQueryList(List<String> queryList) {
+        this.queryList = queryList;
     }
 }

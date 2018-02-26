@@ -8,6 +8,10 @@ import com.zshop.model.Product;
 import com.zshop.service.ICategorySecondService;
 import com.zshop.service.ICategoryService;
 import com.zshop.service.IProductService;
+import com.zshop.util.EncodingTool;
+import org.ansj.domain.Term;
+import org.ansj.splitWord.analysis.ToAnalysis;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,20 @@ public class ProductController {
     public ModelAndView listProduct(ModelAndView modelAndView, HttpServletRequest request) {
         Page<Product> page = new Page<Product>(request);
         page.setPageSize(12);
-        page = productService.findProductByLimit(page);
+        String searchQuery = EncodingTool.encodeStr(request.getParameter("searchQuery"));
+        if (StringUtils.isBlank(searchQuery)) {
+            page = productService.findProductByLimit(page);
+        } else {
+            AdminSearchParam searchParam = new AdminSearchParam();
+            List<String> queryList = new ArrayList<String>();
+            List<Term> terms = ToAnalysis.parse(searchQuery);
+            for (Term term : terms) {
+                queryList.add(term.getName());
+            }
+            searchParam.setSearchQuery(searchQuery);
+            searchParam.setQueryList(queryList);
+            page = productService.findBySearchParam(page, searchParam);
+        }
         modelAndView.addObject("page", page);
         //商品类目
         List<Category> categories = categoryService.findAll();
@@ -48,7 +63,8 @@ public class ProductController {
             List<CategorySecond> csList = categorySecondService.findByCid(category.getCid());
             category.setCsList(csList);
         }
-        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("searchQuery", searchQuery);
         modelAndView.setViewName("product/productList.jsp");
         return modelAndView;
     }
@@ -66,13 +82,12 @@ public class ProductController {
         searchParam.setCsids(list);
         page = productService.findBySearchParam(page, searchParam);
         modelAndView.addObject("page", page);
-
         List<Category> categories = categoryService.findAll();
         for (Category category : categories) {
             List<CategorySecond> csAllList = categorySecondService.findByCid(category.getCid());
             category.setCsList(csAllList);
         }
-        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("categories", categories);
         modelAndView.setViewName("product/productList.jsp");
         return modelAndView;
     }
@@ -93,8 +108,17 @@ public class ProductController {
             List<CategorySecond> csAllList = categorySecondService.findByCid(category.getCid());
             category.setCsList(csAllList);
         }
-        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("categories", categories);
         modelAndView.setViewName("product/productList.jsp");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView viewDetail(ModelAndView modelAndView, @PathVariable("id") Integer id) {
+        Product product = productService.findById(id);
+        modelAndView.addObject("product", product);
+        modelAndView.setViewName("product/productView.jsp");
+        return modelAndView;
+    }
+
 }

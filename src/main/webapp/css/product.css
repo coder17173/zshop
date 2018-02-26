@@ -11,11 +11,15 @@ div.hotProductCategory {
 }
 
 div.hotProductCategory dl {
+    overflow:hidden;
+    display:block;
+    margin: 15px 0;
+
     width: 216px;
-    line-height: 30px;
+    line-height: 40px;
     float: left;
     _float: none;
-    border-bottom: solid 1px #f1f1f1;
+    border-bottom: solid 0px #f1f1f1;
 }
 
 div.hotProductCategory dl.last {
@@ -23,13 +27,15 @@ div.hotProductCategory dl.last {
 }
 
 div.hotProductCategory dt a {
-    font-family: "Microsoft YaHei";
-    color: #2c64b1;
+    font-family: "Microsoft YaHei", "微软雅黑", "SimSun", "宋体";
+    color: #b1291e;
     font-size: 15px;
+    margin-left: 10px;
 }
 
 div.hotProductCategory dd {
-    width: 90px;
+    width: 80px;
     float: left;
-    padding-right: 4px;
+    padding-left: 10px;
+    margin-top: 5px;
 }
