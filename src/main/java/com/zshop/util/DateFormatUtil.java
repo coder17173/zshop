@@ -34,6 +34,26 @@ public class DateFormatUtil {
     }
 
     /**
+     * 根据当前时间生成订单号
+     * @param time
+     * @return
+     */
+    public static String dateToOrderNumber(Date time) {
+        if (time == null) {
+            return "";
+        }
+        String resultDate = null;
+        try {
+            Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK).parse(time.toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            resultDate = sdf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return resultDate;
+    }
+
+    /**
      * 字符串转为时间格式
      * @param dateString
      * @return

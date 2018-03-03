@@ -52,4 +52,17 @@ public interface IOrderDao extends IBaseDao<Order> {
      * @return
      */
     public Integer countByParam(@Param("searchParam") OrderSearchParam searchParam);
+
+    /**
+     * 更改订单状态
+     * @param oid
+     * @param state
+     */
+    public void updateOrderStatus(@Param("oid") Integer oid, @Param("state") Integer state);
+
+    /**
+     *
+     * @param uid
+     */
+    public List<Integer> selectAllByUser(@Param("uid")Integer uid);
 }

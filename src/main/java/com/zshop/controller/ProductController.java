@@ -1,13 +1,10 @@
 package com.zshop.controller;
 
 import com.zshop.common.AdminSearchParam;
+import com.zshop.common.Constants;
 import com.zshop.common.Page;
-import com.zshop.model.Category;
-import com.zshop.model.CategorySecond;
-import com.zshop.model.Product;
-import com.zshop.service.ICategorySecondService;
-import com.zshop.service.ICategoryService;
-import com.zshop.service.IProductService;
+import com.zshop.model.*;
+import com.zshop.service.*;
 import com.zshop.util.EncodingTool;
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.ToAnalysis;
@@ -20,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * Author ZhangHang
@@ -37,9 +34,15 @@ public class ProductController {
     private ICategoryService categoryService;
     @Resource
     private ICategorySecondService categorySecondService;
+    @Resource
+    private IOrderService orderService;
+    @Resource
+    private IOrderItemService orderItemService;
+    @Resource
+    private IUserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView listProduct(ModelAndView modelAndView, HttpServletRequest request) {
+    public ModelAndView listProduct(ModelAndView modelAndView, HttpServletRequest request, HttpSession session) {
         Page<Product> page = new Page<Product>(request);
         page.setPageSize(12);
         String searchQuery = EncodingTool.encodeStr(request.getParameter("searchQuery"));
@@ -56,6 +59,32 @@ public class ProductController {
             searchParam.setQueryList(queryList);
             page = productService.findBySearchParam(page, searchParam);
         }
+        //判断用户是否购买过
+        Object obj = session.getAttribute(Constants.LOGIN_USER);
+        if(obj != null) {
+            User tmp = (User)obj;
+            User user = userService.findByUserNameAndPassword(tmp.getNickName(), tmp.getPassword());
+            List<Integer> oidList = orderService.findAllByUserId(user.getUid());
+            Map<Integer,Float> boughtMap = new HashMap<Integer, Float>();
+            for (Integer oid : oidList) {
+                List<OrderItem> itemList = orderItemService.findByOrderId(oid);
+                for (OrderItem orderItem : itemList) {
+                    int pid = orderItem.getProduct().getPid();
+                    if(!boughtMap.containsKey(pid)){
+                        boughtMap.put(pid, orderItem.getBuyPrice());
+                    }
+                }
+            }
+            List<Product> products = page.getResult();
+            for (Product product : products) {
+                int pid = product.getPid();
+                if(boughtMap.containsKey(pid)){
+                    product.setBuyPrice(boughtMap.get(pid));
+                }
+            }
+            page.setResult(products);
+        }
+
         modelAndView.addObject("page", page);
         //商品类目
         List<Category> categories = categoryService.findAll();
@@ -63,6 +92,7 @@ public class ProductController {
             List<CategorySecond> csList = categorySecondService.findByCid(category.getCid());
             category.setCsList(csList);
         }
+
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("searchQuery", searchQuery);
         modelAndView.setViewName("product/productList.jsp");
@@ -70,7 +100,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/findByCid/{cid}", method = RequestMethod.GET)
-    public ModelAndView listProductByCid(ModelAndView modelAndView, HttpServletRequest request, @PathVariable("cid") Integer cid) {
+    public ModelAndView listProductByCid(ModelAndView modelAndView, HttpServletRequest request, @PathVariable("cid") Integer cid, HttpSession session) {
         Page<Product> page = new Page<Product>(request);
         page.setPageSize(12);
         List<CategorySecond> csList = categorySecondService.findByCid(cid);
@@ -81,6 +111,33 @@ public class ProductController {
         AdminSearchParam searchParam = new AdminSearchParam();
         searchParam.setCsids(list);
         page = productService.findBySearchParam(page, searchParam);
+
+        //判断用户是否购买过
+        Object obj = session.getAttribute(Constants.LOGIN_USER);
+        if(obj != null) {
+            User tmp = (User)obj;
+            User user = userService.findByUserNameAndPassword(tmp.getNickName(), tmp.getPassword());
+            List<Integer> oidList = orderService.findAllByUserId(user.getUid());
+            Map<Integer,Float> boughtMap = new HashMap<Integer, Float>();
+            for (Integer oid : oidList) {
+                List<OrderItem> itemList = orderItemService.findByOrderId(oid);
+                for (OrderItem orderItem : itemList) {
+                    int pid = orderItem.getProduct().getPid();
+                    if(!boughtMap.containsKey(pid)){
+                        boughtMap.put(pid, orderItem.getBuyPrice());
+                    }
+                }
+            }
+            List<Product> products = page.getResult();
+            for (Product product : products) {
+                int pid = product.getPid();
+                if(boughtMap.containsKey(pid)){
+                    product.setBuyPrice(boughtMap.get(pid));
+                }
+            }
+            page.setResult(products);
+        }
+
         modelAndView.addObject("page", page);
         List<Category> categories = categoryService.findAll();
         for (Category category : categories) {
@@ -93,7 +150,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/findByCsid/{csid}", method = RequestMethod.GET)
-    public ModelAndView listProductByCsid(ModelAndView modelAndView, HttpServletRequest request, @PathVariable("csid") Integer csid) {
+    public ModelAndView listProductByCsid(ModelAndView modelAndView, HttpServletRequest request, @PathVariable("csid") Integer csid, HttpSession session) {
         Page<Product> page = new Page<Product>(request);
         page.setPageSize(12);
         List<Integer> list = new ArrayList<Integer>();
@@ -101,6 +158,33 @@ public class ProductController {
         AdminSearchParam searchParam = new AdminSearchParam();
         searchParam.setCsids(list);
         page = productService.findBySearchParam(page, searchParam);
+
+        //判断用户是否购买过
+        Object obj = session.getAttribute(Constants.LOGIN_USER);
+        if(obj != null) {
+            User tmp = (User)obj;
+            User user = userService.findByUserNameAndPassword(tmp.getNickName(), tmp.getPassword());
+            List<Integer> oidList = orderService.findAllByUserId(user.getUid());
+            Map<Integer,Float> boughtMap = new HashMap<Integer, Float>();
+            for (Integer oid : oidList) {
+                List<OrderItem> itemList = orderItemService.findByOrderId(oid);
+                for (OrderItem orderItem : itemList) {
+                    int pid = orderItem.getProduct().getPid();
+                    if(!boughtMap.containsKey(pid)){
+                        boughtMap.put(pid, orderItem.getBuyPrice());
+                    }
+                }
+            }
+            List<Product> products = page.getResult();
+            for (Product product : products) {
+                int pid = product.getPid();
+                if(boughtMap.containsKey(pid)){
+                    product.setBuyPrice(boughtMap.get(pid));
+                }
+            }
+            page.setResult(products);
+        }
+
         modelAndView.addObject("page", page);
 
         List<Category> categories = categoryService.findAll();

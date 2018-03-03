@@ -20,7 +20,8 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Override
     public OrderItem findById(Integer oid) {
-        return null;
+        OrderItem orderItem = orderItemDao.selectById(oid);
+        return orderItem;
     }
 
     @Override
@@ -30,12 +31,13 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Override
     public OrderItem add(OrderItem orderItem) {
-        return null;
+        orderItemDao.insert(orderItem);
+        return orderItem;
     }
 
     @Override
     public void delete(Integer oiid) {
-
+        orderItemDao.deleteById(oiid);
     }
 
     @Override
@@ -47,5 +49,10 @@ public class OrderItemServiceImpl implements IOrderItemService {
             orderItem.getProduct().setStateDesc(StateDesc);
         }*/
         return orderItems;
+    }
+
+    @Override
+    public void deleteByOrderId(Integer oid) {
+        orderItemDao.deleteByOrderId(oid);
     }
 }

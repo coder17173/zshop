@@ -4,6 +4,8 @@ import com.zshop.common.OrderSearchParam;
 import com.zshop.common.Page;
 import com.zshop.model.Order;
 
+import java.util.List;
+
 /**
  * Author ZhangHang
  * Date 2018/2/21 15:57
@@ -51,4 +53,17 @@ public interface IOrderService {
      * @param oid
      */
     public void delete(Integer oid);
+
+    /**
+     * 修改订单状态
+     * @param oid
+     * @param state
+     */
+    public void updateState(Integer oid, Integer state);
+
+    /**
+     * @param uid
+     * @return
+     */
+    public List<Integer> findAllByUserId(Integer uid);
 }

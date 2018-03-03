@@ -30,14 +30,14 @@
     delete from orders
     where oid = #{oid,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.zshop.model.Order">
+    <insert id="insert" parameterType="com.zshop.model.Order" useGeneratedKeys="true" keyProperty="oid">
     insert into orders (oid, create_time, name, 
       phone, addr, state, total, uid, order_number, zipcode, pay_time, ship_time, confirm_time)
     values (#{oid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{total,jdbcType=REAL}, 
       #{uid,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR},
       #{payTime,jdbcType=TIMESTAMP},#{shipTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP})
-  </insert>
+    </insert>
     <!--<insert id="insertSelective" parameterType="com.zshop.model.Order" >
       insert into orders
       <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -138,6 +138,11 @@
         </trim>
         where oid = #{oid,jdbcType=INTEGER}
     </update>
+    <update id="updateOrderStatus">
+        update orders
+        set state = #{state,jdbcType=BIT}
+        WHERE oid = #{oid,jdbcType=INTEGER}
+    </update>
     <select id="count" resultType="java.lang.Integer">
     SELECT count(*) from orders
   </select>
@@ -178,5 +183,9 @@
                 <if test="searchParam.user != null">AND uid = #{searchParam.user.uid,jdbcType=INTEGER}</if>
             </where>
         </if>
+    </select>
+    <select id="selectAllByUser" resultType="java.lang.Integer">
+         SELECT oid from orders
+         WHERE uid = #{uid,jdbcType=INTEGER} AND state = 4
     </select>
 </mapper>

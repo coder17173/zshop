@@ -11,9 +11,14 @@ public class OrderItem implements Serializable{
 
     private Order order;
 
+    private Integer oid;
+
     private Product product;
 
+    private Integer pid;
+
     private Float buyPrice;
+
 
     public Integer getOiid() {
         return oiid;
@@ -63,15 +68,19 @@ public class OrderItem implements Serializable{
         this.buyPrice = buyPrice;
     }
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "oiid=" + oiid +
-                ", count=" + count +
-                ", subTotal=" + subTotal +
-                ", order=" + order +
-                ", product=" + product +
-                ", buyPrice=" + buyPrice +
-                '}';
+    public Integer getOid() {
+        return oid;
+    }
+
+    public void setOid(Integer oid) {
+        this.oid = oid;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 }

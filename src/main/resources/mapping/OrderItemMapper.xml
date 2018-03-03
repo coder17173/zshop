@@ -102,4 +102,8 @@
         from orderitems
         where oid = #{oid,jdbcType=INTEGER}
     </select>
+    <delete id="deleteByOrderId" parameterType="java.lang.Integer">
+        delete from orderitems
+        where oid = #{oid,jdbcType=INTEGER}
+    </delete>
 </mapper>

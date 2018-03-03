@@ -48,4 +48,11 @@ public interface IOrderItemService {
      * @return
      */
     public List<OrderItem> findByOrderId(Integer oid);
+
+    /**
+     *
+     * @param oid
+     * @return
+     */
+    public void deleteByOrderId(Integer oid);
 }

@@ -1,8 +1,6 @@
 package com.zshop.service.impl;
 
-import com.zshop.common.OrderSearchParam;
-import com.zshop.common.OrderStateService;
-import com.zshop.common.Page;
+import com.zshop.common.*;
 import com.zshop.dao.IOrderDao;
 import com.zshop.dao.IOrderItemDao;
 import com.zshop.model.Order;
@@ -13,6 +11,7 @@ import com.zshop.util.DateFormatUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,11 +105,45 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Order add(Order order) {
-        return null;
+        orderDao.insert(order);
+        if(order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
+                item.setOid(order.getOid());
+                System.out.println(order.getOid());
+                orderItemService.add(item);
+            }
+        }
+        return order;
+    }
+
+
+    /**
+     *删除订单以及对应订单项
+     * @param oid
+     */
+    @Override
+    public void delete(Integer oid) {
+        orderItemService.deleteByOrderId(oid);
+        orderDao.deleteById(oid);
     }
 
     @Override
-    public void delete(Integer oid) {
-        orderDao.deleteById(oid);
+    public void updateState(Integer oid, Integer state) {
+        Order order = orderDao.selectById(oid);
+        order.setState(state);
+        if(OrderStateEnum.PAYED.getCode().equals(state)) {
+            order.setPayTime(new Date());
+        } else if(OrderStateEnum.SHIPPED.getCode().equals(state)){
+            order.setShipTime(new Date());
+        } else if(OrderStateEnum.ENDED.getCode().equals(state)) {
+            order.setConfirmTime(new Date());
+        }
+        orderDao.updateById(order);
+    }
+
+    @Override
+    public List<Integer> findAllByUserId(Integer uid) {
+        List<Integer> list = orderDao.selectAllByUser(uid);
+        return list;
     }
 }

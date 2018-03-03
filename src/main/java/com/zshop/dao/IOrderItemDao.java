@@ -26,4 +26,11 @@ public interface IOrderItemDao extends IBaseDao<OrderItem> {
      */
     public List<OrderItem> selectByOrderId(Integer oid);
 
+    /**
+     *
+     * @param oid
+     * @return
+     */
+    public List<OrderItem> deleteByOrderId(Integer oid);
+
 }

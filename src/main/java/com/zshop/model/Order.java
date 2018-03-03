@@ -45,6 +45,8 @@ public class Order implements Serializable {
 
     private List<OrderItem> orderItems;//订单关联的商品集合
 
+    private UserAddress address;
+
     public Integer getOid() {
         return oid;
     }
@@ -203,5 +205,13 @@ public class Order implements Serializable {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public UserAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(UserAddress address) {
+        this.address = address;
     }
 }
