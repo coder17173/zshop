@@ -45,7 +45,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/doReg", method = RequestMethod.POST)
-    public String doRegister(User user) {
+    public String doRegister(User user, HttpServletRequest request) {
+        System.out.println("原密码：" + user.getPassword());
+        String md5Pass = request.getParameter("PWD");
+        user.setPassword(md5Pass);
+        System.out.println("md5加密后的密码:" + md5Pass);
         userService.insert(user);
         logger.info("用户添加成功：" + user);
         return "redirect:/user/login";
@@ -57,7 +61,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/doLog", method = RequestMethod.POST)
-    public String doLogin(User user, HttpSession session) {
+    public String doLogin(User user, HttpSession session, HttpServletRequest request) {
+        String md5Pass = request.getParameter("PWD");
+        user.setPassword(md5Pass);
         boolean isExist = userService.checkLogin(user);
         if (isExist || ("buyer".equals(user.getNickName()) && "reyub".equals(user.getPassword()))) {
             session.setAttribute(Constants.LOGIN_USER, user);

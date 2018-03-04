@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * Author ZhangHang
@@ -82,6 +83,7 @@ public class OrderAdminController {
         Order order = new Order();
         order.setState(2);
         order.setOid(orderID);
+        order.setShipTime(new Date());
         orderService.update(order);
         modelAndView.setViewName("redirect:/admin/order");
         return modelAndView;

@@ -16,6 +16,7 @@
     <link rel="shortcut icon" href="/images/logo.ico">
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jQuery.md5.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/container.css"/>
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
@@ -30,13 +31,39 @@
             <input type="text" class="form-control" name="nickName" placeholder="账号" required autofocus>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="密码" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+            <input type="hidden" id="PWD" name="PWD">
         </div>
         <div class="form-group">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+            <input type="text" class="form-control" name="realName" placeholder="真实姓名">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="email" placeholder="邮箱">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="phone" placeholder="手机号码">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="age" placeholder="年龄">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="addr" placeholder="地址">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="zipCode" placeholder="邮编">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit" onclick="md5()">注册</button>
         </div>
     </form:form>
 </div>
-<%@include file="/common/footer.jsp"%>
+<%@include file="/common/footer.jsp" %>
+<script type="text/javascript">
+    function md5() {
+        var md5PWD = $("#password").val();
+        console.log(md5PWD);
+        $("#PWD").val($.md5(md5PWD));
+    };
+</script>
 </body>
 </html>
