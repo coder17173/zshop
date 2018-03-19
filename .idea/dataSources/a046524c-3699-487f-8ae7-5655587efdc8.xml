@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="tshop@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="tshop">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="test"/>
+    <schema id="7" parent="1" name="ticket"/>
+    <schema id="8" parent="1" name="xshop"/>
+    <schema id="9" parent="1" name="yshop"/>
+    <schema id="10" parent="1" name="zshop"/>
+    <table id="11" parent="2" name="admin">
+      <Comment>绠＄悊鍛樿〃</Comment>
+    </table>
+    <table id="12" parent="2" name="category">
+      <Comment>鍟嗗搧涓?骇绫荤洰</Comment>
+    </table>
+    <table id="13" parent="2" name="categorysecond">
+      <Comment>鍟嗗搧浜岀骇绫荤洰</Comment>
+    </table>
+    <table id="14" parent="2" name="product">
+      <Comment>鍟嗗搧琛</Comment>
+    </table>
+    <table id="15" parent="2" name="user">
+      <Comment>鐢ㄦ埛琛</Comment>
+    </table>
+    <table id="16" parent="2" name="useraddress"/>
+    <column id="17" parent="11" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="18" parent="11" name="user_name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="19" parent="11" name="password">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="20" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="21" parent="12" name="cid">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="22" parent="12" name="cname">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="23" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>cid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="24" parent="13" name="csid">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="25" parent="13" name="csname">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="26" parent="13" name="cid">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="27" parent="13" name="categorysecond_category_cid">
+      <ColNames>cid</ColNames>
+    </index>
+    <key id="28" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>csid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="29" parent="13" name="categorysecond_category_cid_fk">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>tshop</RefSchemaName>
+      <RefTableName>category</RefTableName>
+      <RefColNames>cid</RefColNames>
+    </foreign-key>
+    <column id="30" parent="14" name="pid">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="31" parent="14" name="pname">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="32" parent="14" name="price">
+      <Position>3</Position>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="33" parent="14" name="inventory">
+      <Position>4</Position>
+      <DataType>int(5)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="14" name="image">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="35" parent="14" name="comment">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="36" parent="14" name="create_time">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="37" parent="14" name="csid">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="38" parent="14" name="state">
+      <Position>9</Position>
+      <Comment>鍟嗗搧鐘舵?锛?涓嬫灦1涓婃灦</Comment>
+      <DataType>tinyint(1)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="39" parent="14" name="buy_price">
+      <Position>10</Position>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="40" parent="14" name="code">
+      <Position>11</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <index id="41" parent="14" name="product_categorysecond_csid">
+      <ColNames>csid</ColNames>
+    </index>
+    <key id="42" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>pid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="43" parent="14" name="product_categorysecond_csid_fk">
+      <ColNames>csid</ColNames>
+      <RefSchemaName>tshop</RefSchemaName>
+      <RefTableName>categorysecond</RefTableName>
+      <RefColNames>csid</RefColNames>
+    </foreign-key>
+    <column id="44" parent="15" name="uid">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="45" parent="15" name="nick_name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="46" parent="15" name="password">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="47" parent="15" name="real_name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="48" parent="15" name="email">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="49" parent="15" name="phone">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="50" parent="15" name="age">
+      <Position>7</Position>
+      <DataType>int(5)|0</DataType>
+    </column>
+    <column id="51" parent="15" name="addr">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="52" parent="15" name="zip_code">
+      <Position>9</Position>
+      <DataType>varchar(6)|0</DataType>
+    </column>
+    <key id="53" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>uid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="54" parent="16" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="55" parent="16" name="address">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="56" parent="16" name="name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="57" parent="16" name="phone">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="58" parent="16" name="zipcode">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="59" parent="16" name="user_id">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="60" parent="16" name="useraddress_user_uid_fk">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="61" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="62" parent="16" name="useraddress_user_uid_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>tshop</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>uid</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
